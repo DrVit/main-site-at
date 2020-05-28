@@ -1,9 +1,9 @@
 package ru.geekbrains.main.site.at;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,11 +11,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class NavigationTest extends BaseTest {
     private String header;
 
-
+    @Disabled
     @Test
         void navigationPageCareerTest() {
 
@@ -29,8 +33,8 @@ public class NavigationTest extends BaseTest {
         WebElement footerCareer = driver.findElement(By.className("site-footer__content"));
         Assertions.assertTrue(footerCareer.isDisplayed());
     }
-
-        @Test
+    @Disabled
+    @Test
         void navigationPageCoursesTest() {
 
             System.out.println("Стартует тест страницы 'Курсы'");
@@ -46,6 +50,7 @@ public class NavigationTest extends BaseTest {
             WebElement footerCourses = driver.findElement(By.className("site-footer__content"));
             Assertions.assertTrue(footerCourses.isDisplayed());
         }
+    @Disabled
     @Test
     void navigationPageTestsTest() {
 
@@ -59,6 +64,7 @@ public class NavigationTest extends BaseTest {
         WebElement footerCareer = driver.findElement(By.className("site-footer__content"));
         Assertions.assertTrue(footerCareer.isDisplayed());
     }
+    @Disabled
     @Test
     void navigationPageEventsTest() {
 
@@ -72,6 +78,7 @@ public class NavigationTest extends BaseTest {
         WebElement footerCareer = driver.findElement(By.className("site-footer__content"));
         Assertions.assertTrue(footerCareer.isDisplayed());
     }
+    @Disabled
     @Test
     void navigationPageTopicsTest() {
 
@@ -85,6 +92,7 @@ public class NavigationTest extends BaseTest {
         WebElement footerCareer = driver.findElement(By.className("site-footer__content"));
         Assertions.assertTrue(footerCareer.isDisplayed());
     }
+    @Disabled
     @Test
     void navigationPagePostsTest() {
 
@@ -100,6 +108,47 @@ public class NavigationTest extends BaseTest {
         WebElement footerCareer = driver.findElement(By.className("site-footer__content"));
         Assertions.assertTrue(footerCareer.isDisplayed());
     }
+   /* public static Stream<String> stringGenerator() {
+        return Stream.of("career", "courses", "tests",);
+    }
+    @ParameterizedTest
+    @MethodSource("stringGenerator")
+    public void test01(String title) {
+        assertNotNull(title);
+    } */
+   @ParameterizedTest
+   @CsvFileSource(resources = "/testsources01.csv", numLinesToSkip = 1)
 
+   protected void test01(String a, String b) {
+       driver.get(BASE_URL +"/" + a);
+      /*driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.findElement(By.xpath("//div/div/button[*]")).click();*/
+       String c = "nav > a[href = '/" + a +"']";
+       driver.findElement(By.cssSelector(c)).click();
+
+       header = driver.findElement(By.className("gb-header__title")).getText();
+       /*Assertions.assertEquals("Курсы", header);*/
+       assertEquals(b,header);
+       WebElement footerCourses = driver.findElement(By.className("site-footer__content"));
+       Assertions.assertTrue(footerCourses.isDisplayed());
+
+   }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/testsources02.csv", numLinesToSkip = 1)
+
+    protected void test02(String a, String b) {
+        driver.get(BASE_URL +"/" + a);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.findElement(By.xpath("//div/div/button[*]")).click();
+        String c = "nav > a[href = '/" + a +"']";
+        driver.findElement(By.cssSelector(c)).click();
+
+        header = driver.findElement(By.className("gb-header__title")).getText();
+        /*Assertions.assertEquals("Курсы", header);*/
+        assertEquals(b,header);
+        WebElement footerCourses = driver.findElement(By.className("site-footer__content"));
+        Assertions.assertTrue(footerCourses.isDisplayed());
+
+    }
 
 }

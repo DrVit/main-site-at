@@ -1,5 +1,6 @@
 package ru.geekbrains.main.site.at;
 
+import org.hamcrest.Matcher;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +11,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class SearchTest extends BaseTest {
 
@@ -53,21 +59,32 @@ public class SearchTest extends BaseTest {
         int countTests= Integer.parseInt(testsCount.getText());
 
         Assertions.assertTrue(professionsTab.isDisplayed());
-        Assertions.assertTrue(countProfession >= 2);
         Assertions.assertTrue(coursesTab.isDisplayed());
-        Assertions.assertTrue(countCourses > 15);
         Assertions.assertTrue(webinarsTab.isDisplayed());
-        Assertions.assertTrue(countWebinars > 180 & countWebinars < 300);
         Assertions.assertTrue(blogsTab.isDisplayed());
-        Assertions.assertTrue(countBlogs > 300);
         Assertions.assertTrue(forumsTab.isDisplayed());
-        Assertions.assertTrue(countForums != 350);
         Assertions.assertTrue(testsTab.isDisplayed());
-        Assertions.assertTrue(countTests != 0);
+
+        /* Assertions.assertTrue(countProfession >= 2);
+        Assertions.assertTrue(countCourses > 15);
+        Assertions.assertTrue(countWebinars > 180 & countWebinars < 300);
+        Assertions.assertTrue(countBlogs > 300);
+        Assertions.assertTrue(countForums != 350);
+        Assertions.assertTrue(countTests != 0);*/
+
+
+        assertThat(countProfession, greaterThanOrEqualTo(2));
+        assertThat(countCourses, greaterThan(15));
+        assertThat(countWebinars, allOf(greaterThan(180), lessThan(300)));
+        assertThat(countBlogs, greaterThan(300));
+        assertThat(countForums, not(equalTo(350)));
+        assertThat(countTests, not(equalTo(0)));
 
         System.out.println();
 
 
           }
+
+
 
 }
