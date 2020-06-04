@@ -29,6 +29,7 @@ public class NavigationTab extends BasePage {
         super(driver);
     }
 
+
     public Page clickButton(String buttonTitle) {
         switch (buttonTitle) {
 
