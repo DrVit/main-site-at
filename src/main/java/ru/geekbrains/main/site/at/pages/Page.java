@@ -61,12 +61,4 @@ public class Page extends BasePage {
     }
 
 
-//    public Page checkTab(String expected1){
-//
-//        int countCheckTab = Integer.parseInt(expected1);
-//        assertThat(countCheckTab, greaterThanOrEqualTo(2));
-//
-//        return this;
-//    }
-
 }
